@@ -3,25 +3,27 @@ from transformers import T5Tokenizer, T5ForConditionalGeneration
 
 class AdGenerator:
     def __init__(self):
-        print("Loading T5-small model... (this may take a moment)")
-        self.model_name = "t5-small"
+        # We switch to FLAN-T5-small (Same size ~300MB, but smarter at instructions)
+        self.model_name = "google/flan-t5-small"
+        print(f"Loading {self.model_name}... (this may take a moment)")
         
-        # ing tokenizer and model
+        # Load tokenizer and model
         self.tokenizer = T5Tokenizer.from_pretrained(self.model_name)
         self.model = T5ForConditionalGeneration.from_pretrained(self.model_name)
         
-        # Ensuring that we are using CPU
         self.device = torch.device("cpu")
         self.model.to(self.device)
         print("Model loaded successfully on CPU.")
 
-    def generate_ad(self, product_name, description): #Function to generate ad copy
+    def generate_ad(self, product_name, description):
+        # 1. Prompt Engineering:
+        input_text = (
+            f"Write a catchy, exciting social media ad for a product named '{product_name}'. "
+            f"It features {description}. "
+            "Use emojis and hashtags!"
+        )
         
-        # Prompt Engineering by framing the task for the model T5
-       
-        input_text = f"write an advertisement for: {product_name}. Key features: {description}"
-        
-        # Tokenizing input
+        # Tokenize
         input_ids = self.tokenizer.encode(
             input_text, 
             return_tensors="pt", 
@@ -29,25 +31,24 @@ class AdGenerator:
             truncation=True
         ).to(self.device)
 
-        # Generating output
-        # max_length=100 
-        # num_beams=2 adds a little creativity search without being too slow
+        # 2. Creative Generation Parameters (The Secret Sauce)
         outputs = self.model.generate(
             input_ids, 
-            max_length=100, 
-            num_beams=2, 
-            early_stopping=True,
-            no_repeat_ngram_size=2
+            max_length=150,             
+            min_length=30,              # Force it to say more than one sentence
+            do_sample=True,             # ENABLE CREATIVITY!
+            temperature=0.9,            # 0.9 = Creative, 0.5 = Boring
+            top_k=50,                   # Pick from top 50 likely words
+            top_p=0.95,                 # Nucleus sampling (removes nonsense)
+            repetition_penalty=1.2,     # Don't repeat the same word twice
+            num_return_sequences=1
         )
 
-        # Decoding output
+        # Decode
         ad_copy = self.tokenizer.decode(outputs[0], skip_special_tokens=True)
         return ad_copy
 
 if __name__ == "__main__":
-    # Quick test of the AdGenerator
+    # Quick Test
     generator = AdGenerator()
-    sample_prod = "Retro Mechanical Keyboard"
-    sample_desc = "Clicky blue switches, RGB lighting, vintage typewriter style."
-    print(f"\n--- Input: {sample_prod} ---")
-    print(f"Generated Ad: {generator.generate_ad(sample_prod, sample_desc)}")
+    print(generator.generate_ad("Future Sneakers", "Self lacing, neon lights"))

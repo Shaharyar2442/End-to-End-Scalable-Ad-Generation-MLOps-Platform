@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: ad-generator-container
-        image: shaharyarrizwan/ad-generator-api:v1
+        image: shaharyarrizwan/ad-generator-api:v3
         imagePullPolicy: Always
         ports:
         - containerPort: 8000
