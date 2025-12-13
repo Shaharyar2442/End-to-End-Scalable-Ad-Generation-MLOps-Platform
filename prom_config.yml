@@ -5,5 +5,4 @@ scrape_configs:
   - job_name: 'fastapi_app_cloud'
     metrics_path: '/metrics'
     static_configs:
-      # Azure IP
       - targets: ['172.188.205.7:80']
