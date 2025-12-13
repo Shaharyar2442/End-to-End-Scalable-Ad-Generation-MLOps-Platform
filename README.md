@@ -21,6 +21,25 @@ User → Streamlit App → AKS LoadBalancer (172.188.205.7) → FastAPI Pod → 
 
 ---
 
+## 🌟 Project Screenshots
+
+### 1. Streamlit Frontend (Ad Generation UI)
+![Streamlit Frontend](./screenshots/frontend.png)
+
+### 2. Airflow DAGs (Automated Pipeline)
+![Airflow DAGs](./screenshots/airflow.png)
+
+### 3. MLflow Experiment Tracking
+![MLflow Tracking](./screenshots/mlflow.png)
+
+### 4. Prometheus Target Health
+![Prometheus Target Health](./screenshots/prometheus.png)
+
+### 5. Grafana Dashboard (Monitoring)
+![Grafana Dashboard](./screenshots/grafana.png)
+
+---
+
 ## 🔑 Key MLOps Features
 
 - **Automated Data & Training Pipeline:**
