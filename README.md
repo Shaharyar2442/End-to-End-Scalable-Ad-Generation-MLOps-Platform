@@ -100,20 +100,7 @@ User → Streamlit App → AKS LoadBalancer (172.188.205.7) → FastAPI Pod → 
 
 ---
 
-## 🎬 Demo Guide
 
-1. **Show the Streamlit UI:**
-   - Demonstrate generating an ad from a product description.
-2. **Show Grafana Dashboard:**
-   - Visualize real-time throughput and latency as requests are made.
-3. **Show Azure Portal:**
-   - Display the running AKS cluster and deployed services.
-4. **Show GitHub Actions:**
-   - Highlight the green build history and automated deployments.
-5. **Show Airflow Grid:**
-   - Present successful DAG runs for data ingestion and training.
-
----
 
 ## 📦 Model & API Details
 
